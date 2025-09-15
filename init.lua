@@ -22,12 +22,18 @@ vim.opt.breakindent = true
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.syntax = 'on'
--- vim.cmd.colorscheme('habamax')
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.cmd.colorscheme('catppuccin-mocha')
 
 -- chnage netwr file manager layout
-vim.g.netrw_liststyle = 3
+vim.g.netrw_banner = 0
+vim.g.netrw_liststyle = 0
+vim.g.netrw_list_hide = [[^\.\.\?/$]]
+vim.g.netrw_sort_sequence = [[[\/]$]]
+vim.g.netrw_use_errorwindow = 0
 
 -- custom treesitter color for code comments
 vim.api.nvim_set_hl(0, "Comment", { fg = "#C0C0C0" })
@@ -59,3 +65,17 @@ end
 
 -- setup mason to install linter, formatter etc.
 require("mason").setup()
+
+-- custom command to clear lsp log file
+vim.api.nvim_create_user_command('LspLogClear', function()
+    local log_path = vim.lsp.get_log_path()
+    local f = io.open(log_path, "w")
+    if f then f:close() end
+    print("LSP log cleared: " .. log_path)
+end, {})
+
+-- this is required for the `docker_compose_language_service` lsp to work properly
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "docker-compose*.yaml", "docker-compose*.yml" },
+    command = "set filetype=yaml.docker-compose"
+})

@@ -34,13 +34,13 @@ require("lazy").setup(
             -- { "hedyhli/outline.nvim",        lazy = true },
             -- auto completion
             {
-                'hrsh7th/nvim-cmp',
+                "hrsh7th/nvim-cmp",
                 lazy = true,
                 dependencies = {
-                    'hrsh7th/cmp-nvim-lsp',
-                    'hrsh7th/cmp-buffer',
-                    'hrsh7th/cmp-path',
-                    'hrsh7th/cmp-cmdline',
+                    "hrsh7th/cmp-nvim-lsp",
+                    "hrsh7th/cmp-buffer",
+                    "hrsh7th/cmp-path",
+                    "hrsh7th/cmp-cmdline"
                 }
             },
             -- auto completion with luasnip
@@ -58,7 +58,7 @@ require("lazy").setup(
             {
                 "folke/trouble.nvim",
                 opts = {}, -- for default options, refer to the configuration section for custom setup.
-                cmd = "Trouble",
+                cmd = "Trouble"
             },
             { "nvim-tree/nvim-web-devicons", lazy = true },
             { "williamboman/mason.nvim",     lazy = true },
@@ -84,7 +84,7 @@ require("lazy").setup(
                                 "go",
                                 "rust",
                                 "json",
-                                "zig",
+                                "zig"
                             },
                             sync_install = false,
                             highlight = { enable = true },
@@ -103,18 +103,32 @@ require("lazy").setup(
             },
             { "ziglang/zig.vim",      lazy = true },
             { "neovim/nvim-lspconfig" },
+            { "catppuccin/nvim",      name = "catppuccin", priority = 1000 },
             {
-                "wtfox/jellybeans.nvim",
+                "maxmx03/solarized.nvim",
+                lazy = false,
                 priority = 1000,
-                config = function()
-                    require("jellybeans").setup()
-                    vim.cmd.colorscheme("jellybeans")
-                end,
+                ---@type solarized.config
+                opts = {},
+                config = function(_, opts)
+                    vim.o.termguicolors = true
+                    vim.o.background = "dark"
+                    require("solarized").setup(opts)
+                    -- vim.cmd.colorscheme "solarized"
+                end
             }
+            -- {
+            --     "wtfox/jellybeans.nvim",
+            --     priority = 1000,
+            --     config = function()
+            --         require("jellybeans").setup()
+            --         vim.cmd.colorscheme("jellybeans")
+            --     end,
+            -- }
         },
         -- Configure any other settings here. See the documentation for more details.
         -- colorscheme that will be used when installing plugins.
-        install = { colorscheme = { "habamax" } },
+        -- install = { colorscheme = { "habamax" } },
         -- automatically check for plugin updates
         checker = { enabled = false }
     }
